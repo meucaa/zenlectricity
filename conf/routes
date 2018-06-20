@@ -1,0 +1,14 @@
+POST    /signup                           controllers.UserController.signup
+POST    /login                            controllers.UserController.login
+
+GET     /powerstations                    controllers.PowerStationController.list(type: Option[String])
+POST    /powerstations                    controllers.PowerStationController.create
+
+GET     /powerstations/balance            controllers.PowerStationEventController.balance
+
+GET     /powerstations/:id                controllers.PowerStationController.fetchById(id: Long)
+POST    /powerstations/:id/load           controllers.PowerStationEventController.load(id: Long)
+POST    /powerstations/:id/consume        controllers.PowerStationEventController.consume(id: Long)
+
+GET     /powerstations/:id/events         controllers.PowerStationEventController.list(id: Long)
+GET     /powerstations/:id/events/:eid    controllers.PowerStationEventController.fetch(id: Long, eid: Long)
