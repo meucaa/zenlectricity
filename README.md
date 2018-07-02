@@ -24,6 +24,7 @@ slick.dbs.default.db.password = "<db_password>"
 ```bash
 sbt test
 ```
+NB: Database setup is not needed to run the tests (database access are mocked).
 
 ## Run in dev mode
 
