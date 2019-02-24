@@ -1,5 +1,5 @@
 # zenlectricity
-
+[![Build Status](https://travis-ci.org/meucaa/zenlectricity.svg?branch=master)](https://travis-ci.org/meucaa/zenlectricity)
 
 ## Prerequisites
 
