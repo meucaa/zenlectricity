@@ -1,0 +1,20 @@
+config:
+  target: 'http://localhost:9000'
+  # plugins:
+    # expect: {}
+  phases:
+    - duration: 10
+      arrivalRate: 20
+  defaults:
+    headers:
+      Content-Type: 'application/json'
+    
+scenarios:
+  - name: "Random signup test"
+    flow:
+    - post:
+        url: "/api/signup"
+        json:
+          login: "{{ $randomString() }}"
+          password: "{{ $randomString() }}"
+
