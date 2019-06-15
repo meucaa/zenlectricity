@@ -17,6 +17,7 @@ class UserRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, crypto
 
   import dbConfig._
   import profile.api._
+  import java.sql.SQLIntegrityConstraintViolationException
 
   private class UserTable(tag: Tag) extends Table[User](tag, "user") {
 
@@ -38,12 +39,12 @@ class UserRepository @Inject() (dbConfigProvider: DatabaseConfigProvider, crypto
         ) += (userForm.login, crypto.encryptPassword(userForm.password))).asTry
   }
 
-  def create(userForm: UserForm): Future[Try[User]] = db.run {
-    filterByLogin(userForm.login).map {
-      case Some(u: User) => Future(Failure(UserSignupFailed(u.login)))
-      case None => insert(userForm)
+  def create(userForm: UserForm): Future[Try[User]] =
+    insert(userForm).map { tryUser =>
+      tryUser.recoverWith {
+        case _: SQLIntegrityConstraintViolationException => Failure(UserSignupFailed(userForm.login))
+      }
     }
-  }.flatten
 
   def fetchByLogin(login: String) : Future[Try[User]] = db.run {
     filterByLogin(login).map {
